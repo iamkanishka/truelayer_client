@@ -101,7 +101,10 @@ defmodule TruelayerClient.AuthTest do
       Bypass.expect_once(bypass, "POST", "/connect/token", fn conn ->
         conn
         |> Plug.Conn.put_resp_content_type("application/problem+json")
-        |> Plug.Conn.send_resp(400, Jason.encode!(%{title: "Bad Request", detail: "invalid_grant"}))
+        |> Plug.Conn.send_resp(
+          400,
+          Jason.encode!(%{title: "Bad Request", detail: "invalid_grant"})
+        )
       end)
 
       assert {:error, %Error{status: 400}} = Auth.exchange_code(client, "bad-code", :payments)
