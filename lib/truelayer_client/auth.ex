@@ -250,7 +250,7 @@ defmodule TruelayerClient.Auth do
            HTTP.json_request(client.http, client.config,
              method: :delete,
              url: "#{client.config.auth_url}/connect/token/#{credentials_id}",
-             headers: Token.bearer_header(token)
+             headers: Map.new([Token.bearer_header(token)])
            ) do
       :ok
     end
