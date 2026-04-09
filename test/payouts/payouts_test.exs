@@ -49,7 +49,9 @@ defmodule TruelayerClient.PayoutsTest do
 
     test "returns error on API failure", %{bypass: bypass, client: client} do
       stub_error(bypass, "POST", "/v3/payouts", 400, "Bad Request", "invalid beneficiary")
-      assert {:error, %Error{status: 400}} = Payouts.create_payout(client, %{}, operation_id: "op")
+
+      assert {:error, %Error{status: 400}} =
+               Payouts.create_payout(client, %{}, operation_id: "op")
     end
   end
 
