@@ -56,11 +56,15 @@ defmodule TruelayerClient.HTTP do
       |> maybe_put(:json, body)
 
     start = System.monotonic_time()
-    emit(prefix, :start, %{system_time: System.system_time()}, %{method: method, url: url})
+
+    emit(prefix, :start, %{system_time: System.system_time()}, %{
+      method: method,
+      url: url
+    })
 
     result =
       case Req.request(req, req_opts) do
-        {:ok, %Req.Response{status: status, body: resp_body, headers: resp_headers}}
+        {:ok, %Req.Response{status: status, body: resp_body, headers: _resp_headers}}
         when status in 200..299 ->
           {:ok, resp_body}
 
@@ -79,13 +83,18 @@ defmodule TruelayerClient.HTTP do
 
     case result do
       {:ok, _} ->
-        emit(prefix, :stop, %{duration: duration}, %{method: method, url: url, status: :ok})
+        emit(prefix, :stop, %{duration: duration}, %{
+          method: method,
+          url: url,
+          status: :ok
+        })
 
-      {:error, %Error{status: s}} ->
-        emit(prefix, :stop, %{duration: duration}, %{method: method, url: url, status: s})
-
-      {:error, _} ->
-        emit(prefix, :exception, %{duration: duration}, %{method: method, url: url, kind: :error})
+      {:error, %Error{status: status}} ->
+        emit(prefix, :stop, %{duration: duration}, %{
+          method: method,
+          url: url,
+          status: status
+        })
     end
 
     result
@@ -100,7 +109,7 @@ defmodule TruelayerClient.HTTP do
           {:ok, map()} | {:error, Error.t()}
   def form_post(req, url, params) when is_binary(url) and is_map(params) do
     case Req.post(req, url: url, form: params) do
-      {:ok, %Req.Response{status: status, body: body, headers: headers}}
+      {:ok, %Req.Response{status: status, body: body, headers: _headers}}
       when status in 200..299 ->
         {:ok, ensure_map(body)}
 
