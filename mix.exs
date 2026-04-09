@@ -17,7 +17,7 @@ defmodule TruelayerClient.MixProject do
       description: "Production-grade Elixir client for the TrueLayer open banking API",
       package: package(),
       # ExDoc
-      name: "TruelayerClient",
+      name: "truelayer_client",
       source_url: @source_url,
       docs: docs(),
       # Coverage
