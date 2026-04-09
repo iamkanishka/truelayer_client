@@ -1,20 +1,29 @@
 defmodule TruelayerClient.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
-  @moduledoc false
+  @moduledoc """
+  OTP Application for `TruelayerClient`.
+
+  Starts the shared infrastructure required by all client instances.
+
+  ## Supervision tree
+
+      TruelayerClient.Application
+      └── TruelayerClient.Auth.MemoryStore   (GenServer, owns ETS token table)
+
+  If you supply a custom `:token_store` to `TruelayerClient.new/1`, the
+  `MemoryStore` is still started but unused by that client instance.
+  """
 
   use Application
 
-  @impl true
+  @impl Application
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: TruelayerClient.Worker.start_link(arg)
-      # {TruelayerClient.Worker, arg}
+      TruelayerClient.Auth.MemoryStore
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: TruelayerClient.Supervisor]
-    Supervisor.start_link(children, opts)
+    Supervisor.start_link(children,
+      strategy: :one_for_one,
+      name: TruelayerClient.Supervisor
+    )
   end
 end
