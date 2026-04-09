@@ -148,7 +148,9 @@ defmodule TruelayerClient.Payments do
   @spec submit_consent(TruelayerClient.t(), String.t()) ::
           {:ok, map()} | {:error, Error.t()}
   def submit_consent(client, payment_id) do
-    post_flow_action(client, payment_id, "authorization-flow/actions/consent", %{"consent" => true})
+    post_flow_action(client, payment_id, "authorization-flow/actions/consent", %{
+      "consent" => true
+    })
   end
 
   @doc "Submit bank-redirect return parameters (POST /v3/payments-providers/return)."
