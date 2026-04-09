@@ -2,7 +2,7 @@ defmodule TruelayerClient.MixProject do
   use Mix.Project
 
   @version "1.0.0"
-  @source_url "https://github.com/iamkanishka/truelayer-client-elixir"
+  @source_url "https://github.com/iamkanishka/truelayer_client"
 
   def project do
     [
