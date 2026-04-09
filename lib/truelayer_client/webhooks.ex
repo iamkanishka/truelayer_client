@@ -46,8 +46,6 @@ defmodule TruelayerClient.Webhooks do
       TruelayerClient.Webhooks.on(client, TruelayerClient.Webhooks.refund_executed(), handler)
   """
 
-  alias TruelayerClient.Error
-
   @type registry :: :ets.tid()
   @type handler_fn :: (map() -> :ok | {:error, term()})
   @type event_type :: String.t()
