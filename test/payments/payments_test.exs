@@ -107,7 +107,9 @@ defmodule TruelayerClient.PaymentsTest do
 
     test "returns not_found error on 404", %{bypass: bypass, client: client} do
       stub_error(bypass, "GET", "/v3/payments/nope", 404, "Not Found", "Payment not found")
-      assert {:error, %Error{type: :not_found, status: 404}} = Payments.get_payment(client, "nope")
+
+      assert {:error, %Error{type: :not_found, status: 404}} =
+               Payments.get_payment(client, "nope")
     end
 
     test "surfaces Tl-Trace-Id from error response", %{bypass: bypass, client: client} do
