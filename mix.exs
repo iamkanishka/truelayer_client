@@ -69,7 +69,7 @@ defmodule TruelayerClient.MixProject do
       links: %{
         "GitHub" => @source_url,
         "Changelog" => "#{@source_url}/blob/master/CHANGELOG.md"
-        },
+      },
       files: ~w(lib mix.exs README.md LICENSE CHANGELOG.md .formatter.exs)
     ]
   end
